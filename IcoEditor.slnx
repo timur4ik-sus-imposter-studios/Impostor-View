@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="IcoEditor/IcoEditor.vcxproj" Id="3b10b994-2936-49f5-8818-fc073f2ec1eb" />
+</Solution>
