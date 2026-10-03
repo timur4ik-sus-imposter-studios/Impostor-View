@@ -6,7 +6,6 @@ extern const std::vector<std::vector<std::wstring>> local_matrix;
 typedef enum {
 	EN = 1,
 	RU = 2,
-  DE = 3
 } Lang;
 
 typedef enum {
