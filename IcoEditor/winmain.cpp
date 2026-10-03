@@ -1,4 +1,5 @@
 #include "framework.h"
+#include "globals.h"
 
 int WINAPI WinMain(
     HINSTANCE hInstance,
