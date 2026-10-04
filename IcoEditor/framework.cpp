@@ -1,6 +1,6 @@
 #include "framework.h"
 #include "globals.h"
-
+#include "local.h" 
 #include <vector>
 #include <algorithm>
 #include <fstream>
@@ -415,7 +415,7 @@ void CreateZoomToolbar(
                 TB_ADDSTRING,
                 0,
                 reinterpret_cast<LPARAM>(
-                    L"Уменьшить"
+                    (local_matrix[_MINUS][lang] + L"\0").c_str()
                     )
             )
             );
@@ -427,7 +427,7 @@ void CreateZoomToolbar(
                 TB_ADDSTRING,
                 0,
                 reinterpret_cast<LPARAM>(
-                    L"Увеличить"
+                    (local_matrix[_PLUS][lang] + L"\0").c_str()
                     )
             )
             );
@@ -545,14 +545,14 @@ BOOL InitInstance(
         hFileMenu,
         MF_STRING,
         ID_FILE_OPEN,
-        L"Открыть...\tCtrl+O"
+        (local_matrix[_OPEN][lang] + L"\0").c_str()
     );
 
     AppendMenu(
         hFileMenu,
         MF_STRING,
         ID_FILE_SAVEAS,
-        L"Сохранить как..."
+        (local_matrix[_SAVEAS][lang] + L"\0").c_str()
     );
 
     AppendMenu(
@@ -566,14 +566,14 @@ BOOL InitInstance(
         hFileMenu,
         MF_STRING,
         ID_FILE_EXIT,
-        L"Выход"
+        (local_matrix[_EXIT][lang] + L"\0").c_str()
     );
 
     AppendMenu(
         hHelpMenu,
         MF_STRING,
         ID_HELP_ABOUT,
-        L"О программе"
+        (local_matrix[_ABOUT_BTN][lang] + L"\0").c_str()
     );
 
     AppendMenu(
@@ -582,7 +582,7 @@ BOOL InitInstance(
         reinterpret_cast<UINT_PTR>(
             hFileMenu
             ),
-        L"Файл"
+        (local_matrix[_FILE][lang] + L"\0").c_str()
     );
 
     AppendMenu(
@@ -591,7 +591,7 @@ BOOL InitInstance(
         reinterpret_cast<UINT_PTR>(
             hSpecialMenu
             ),
-        L"Спец. функции"
+        (local_matrix[_SPECIAL][lang] + L"\0").c_str()
     );
 
     AppendMenu(
@@ -600,7 +600,7 @@ BOOL InitInstance(
         reinterpret_cast<UINT_PTR>(
             hHelpMenu
             ),
-        L"Справка"
+        (local_matrix[_INFO][lang] + L"\0").c_str()
     );
 
     HWND hWnd =
@@ -804,13 +804,13 @@ void OnSaveFileAs(
         MessageBox(
             hWnd,
 
-            L"Нечего сохранять. "
-            L"Сначала откройте ICO файл.",
+            L"ERROR: "
+            L"NOTHING TO SAVE",
 
-            L"Предупреждение",
+            L"ERROR",
 
             MB_OK |
-            MB_ICONWARNING
+            MB_ICONERROR
         );
 
         return;
@@ -842,17 +842,7 @@ void OnSaveFileAs(
 
     if (GetSaveFileName(&ofn))
     {
-        MessageBox(
-            hWnd,
 
-            L"Функция сохранения структуры "
-            L"файла вызвана успешно!",
-
-            L"Сохранение",
-
-            MB_OK |
-            MB_ICONINFORMATION
-        );
     }
 }
 
@@ -884,7 +874,7 @@ void DrawIconCenter(
         DrawText(
             hdc,
 
-            L"Файл не выбран.",
+            (local_matrix[_FILE_NOT_SELECTED][lang] + L"\0").c_str(),
 
             -1,
 
@@ -1272,14 +1262,9 @@ void HandleCommand(
         MessageBox(
             hWnd,
 
-            L"Impostor View\n\n"
-            L"Ну что сказать, просмотрщик ico, "
-            L"скоро редактор\n\n"
-            L"(C) Sus Imposter Group, 2026, "
-            L"All rights reserved.\n\n"
-            L"Sus Imposter Commerce Lic",
+            (local_matrix[_ABOUT][lang] + L"\0").c_str(),
 
-            L"О программе",
+            (local_matrix[_ABOUT_BTN][lang] + L"\0").c_str(),
 
             MB_OK |
             MB_ICONINFORMATION
