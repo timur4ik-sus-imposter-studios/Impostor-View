@@ -3,12 +3,12 @@
 
 extern std::vector<std::vector<std::wstring>> local_matrix;
 
-typedef enum {
+typedef enum{
 	EN = 0,
 	RU = 1,
 } Lang;
 
-enum LocalElement{
+enum LocalElement  {
 	_FILE = 0,
 	_ABOUT = 1,
 	_SAVEAS = 2,
@@ -21,6 +21,5 @@ enum LocalElement{
 	_SELECTLANG = 9,
 	_INFO = 10,
 	_ABOUT_BTN = 11
-} ;
+};
 
-void SelectLang(void);

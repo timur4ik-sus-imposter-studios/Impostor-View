@@ -1,7 +1,7 @@
 #pragma once
 #include "framework.h"
 #include "string"
-
+#include "local.h"
 
 extern AppState g_AppState;
 
@@ -20,3 +20,9 @@ extern std::vector<IconEntry> g_Icons;
 
 extern int g_SelectedIcon;
 
+extern Lang lang;
+
+extern HMENU g_hMainMenu;
+extern HMENU g_hFileMenu;
+extern HMENU g_hSpecialMenu;
+extern HMENU g_hHelpMenu;

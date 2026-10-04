@@ -21,7 +21,7 @@
 #define IDC_SIDE_SIZE_LIST    102
 #define IDC_MAIN_TOOLBAR      103
 
-
+#define ID_LANGUAGE 3001
 #define ID_FILE_OPEN          40001
 #define ID_FILE_SAVEAS        40002
 #define ID_FILE_EXIT          40003

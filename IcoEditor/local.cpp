@@ -19,11 +19,3 @@ std::vector<std::vector<std::wstring>> local_matrix = {
 };
 Lang lang = EN;
 
-void SelectLang() {
-    if (lang == EN)
-    {
-        lang = RU;
-        return;
-    }
-    lang = EN;
-}

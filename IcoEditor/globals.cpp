@@ -1,4 +1,4 @@
-#include "framework.h"
+#include "globals.h"
 
 AppState g_AppState =
 {
@@ -28,3 +28,9 @@ POINT g_LastMousePoint =
 std::vector<IconEntry> g_Icons;
 
 int g_SelectedIcon = -1;
+
+HMENU g_hMainMenu = NULL;
+HMENU g_hFileMenu = NULL;
+HMENU g_hSpecialMenu = NULL;
+HMENU g_hHelpMenu = NULL;
+

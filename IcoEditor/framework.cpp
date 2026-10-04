@@ -7,6 +7,122 @@
 #include <cstdint>
 #include <cmath>
 
+void UpdateLanguage(HWND hWnd)
+{
+    ModifyMenu(
+        g_hMainMenu,
+        0,
+        MF_BYPOSITION | MF_POPUP,
+        reinterpret_cast<UINT_PTR>(g_hFileMenu),
+        local_matrix[_FILE][lang].c_str()
+    );
+
+    ModifyMenu(
+        g_hMainMenu,
+        1,
+        MF_BYPOSITION | MF_POPUP,
+        reinterpret_cast<UINT_PTR>(g_hSpecialMenu),
+        local_matrix[_SPECIAL][lang].c_str()
+    );
+
+    ModifyMenu(
+        g_hMainMenu,
+        2,
+        MF_BYPOSITION | MF_POPUP,
+        reinterpret_cast<UINT_PTR>(g_hHelpMenu),
+        local_matrix[_INFO][lang].c_str()
+    );
+
+
+    ModifyMenu(
+        g_hFileMenu,
+        ID_FILE_OPEN,
+        MF_BYCOMMAND | MF_STRING,
+        ID_FILE_OPEN,
+        local_matrix[_OPEN][lang].c_str()
+    );
+
+    ModifyMenu(
+        g_hFileMenu,
+        ID_FILE_SAVEAS,
+        MF_BYCOMMAND | MF_STRING,
+        ID_FILE_SAVEAS,
+        local_matrix[_SAVEAS][lang].c_str()
+    );
+
+    ModifyMenu(
+        g_hFileMenu,
+        ID_FILE_EXIT,
+        MF_BYCOMMAND | MF_STRING,
+        ID_FILE_EXIT,
+        local_matrix[_EXIT][lang].c_str()
+    );
+
+
+    ModifyMenu(
+        g_hSpecialMenu,
+        ID_LANGUAGE,
+        MF_BYCOMMAND | MF_STRING,
+        ID_LANGUAGE,
+        local_matrix[_SELECTLANG][lang].c_str()
+    );
+
+
+    ModifyMenu(
+        g_hHelpMenu,
+        ID_HELP_ABOUT,
+        MF_BYCOMMAND | MF_STRING,
+        ID_HELP_ABOUT,
+        local_matrix[_ABOUT_BTN][lang].c_str()
+    );
+
+
+    if (g_hZoomToolbar)
+    {
+        TBBUTTONINFO buttonInfo = {};
+
+        buttonInfo.cbSize = sizeof(TBBUTTONINFO);
+        buttonInfo.dwMask = TBIF_TEXT;
+
+        buttonInfo.pszText =
+            const_cast<LPWSTR>(
+                local_matrix[_MINUS][lang].c_str()
+                );
+
+        SendMessage(
+            g_hZoomToolbar,
+            TB_SETBUTTONINFO,
+            ID_ZOOM_OUT,
+            reinterpret_cast<LPARAM>(&buttonInfo)
+        );
+
+
+        buttonInfo.pszText =
+            const_cast<LPWSTR>(
+                local_matrix[_PLUS][lang].c_str()
+                );
+
+        SendMessage(
+            g_hZoomToolbar,
+            TB_SETBUTTONINFO,
+            ID_ZOOM_IN,
+            reinterpret_cast<LPARAM>(&buttonInfo)
+        );
+    }
+
+
+    DrawMenuBar(hWnd);
+
+    UpdateWindowTitle(hWnd);
+
+    InvalidateRect(
+        hWnd,
+        NULL,
+        TRUE
+    );
+}
+
+
 void ClearLoadedIcons()
 {
     for (auto& entry : g_Icons)
@@ -529,76 +645,83 @@ BOOL InitInstance(
     HINSTANCE hInstance,
     int nCmdShow)
 {
-    HMENU hMenu =
+    g_hMainMenu =
         CreateMenu();
 
-    HMENU hFileMenu =
+    g_hFileMenu =
         CreatePopupMenu();
 
-    HMENU hHelpMenu =
+    g_hHelpMenu =
         CreatePopupMenu();
 
-    HMENU hSpecialMenu =
+    g_hSpecialMenu =
         CreatePopupMenu();
 
     AppendMenu(
-        hFileMenu,
+        g_hSpecialMenu,
+        MF_STRING,
+        ID_LANGUAGE,
+        (local_matrix[_SELECTLANG][lang] + L"\0").c_str()
+    );
+
+    AppendMenu(
+        g_hFileMenu,
         MF_STRING,
         ID_FILE_OPEN,
         (local_matrix[_OPEN][lang] + L"\0").c_str()
     );
 
     AppendMenu(
-        hFileMenu,
+        g_hFileMenu,
         MF_STRING,
         ID_FILE_SAVEAS,
         (local_matrix[_SAVEAS][lang] + L"\0").c_str()
     );
 
     AppendMenu(
-        hFileMenu,
+        g_hFileMenu,
         MF_SEPARATOR,
         0,
         NULL
     );
 
     AppendMenu(
-        hFileMenu,
+        g_hFileMenu,
         MF_STRING,
         ID_FILE_EXIT,
         (local_matrix[_EXIT][lang] + L"\0").c_str()
     );
 
     AppendMenu(
-        hHelpMenu,
+        g_hHelpMenu,
         MF_STRING,
         ID_HELP_ABOUT,
         (local_matrix[_ABOUT_BTN][lang] + L"\0").c_str()
     );
 
     AppendMenu(
-        hMenu,
+        g_hMainMenu,
         MF_POPUP,
         reinterpret_cast<UINT_PTR>(
-            hFileMenu
+            g_hFileMenu
             ),
         (local_matrix[_FILE][lang] + L"\0").c_str()
     );
 
     AppendMenu(
-        hMenu,
+        g_hMainMenu,
         MF_POPUP,
         reinterpret_cast<UINT_PTR>(
-            hSpecialMenu
+            g_hSpecialMenu
             ),
         (local_matrix[_SPECIAL][lang] + L"\0").c_str()
     );
 
     AppendMenu(
-        hMenu,
+        g_hMainMenu,
         MF_POPUP,
         reinterpret_cast<UINT_PTR>(
-            hHelpMenu
+            g_hHelpMenu
             ),
         (local_matrix[_INFO][lang] + L"\0").c_str()
     );
@@ -616,7 +739,7 @@ BOOL InitInstance(
             600,
 
             NULL,
-            hMenu,
+            g_hMainMenu,
             hInstance,
             NULL
         );
@@ -1269,6 +1392,16 @@ void HandleCommand(
             MB_OK |
             MB_ICONINFORMATION
         );
+
+        break;
+    }
+    case ID_LANGUAGE:
+    {
+        lang = (lang == EN)
+            ? RU
+            : EN;
+
+        UpdateLanguage(hWnd);
 
         break;
     }

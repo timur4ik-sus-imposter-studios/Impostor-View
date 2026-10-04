@@ -7,6 +7,12 @@ int WINAPI WinMain(
     LPSTR lpCmdLine,
     int nCmdShow)
 {
+   /* MessageBoxW(
+        nullptr,
+        (local_matrix[_MINUS][lang] + L"\0").c_str(),
+        L"A",
+        MB_ICONINFORMATION
+    );*/
     UNREFERENCED_PARAMETER(
         hPrevInstance
     );
